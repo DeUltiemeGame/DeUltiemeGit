@@ -1,24 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kilobolt.robotgame"
-    android:versionCode="1"
-    android:versionName="1.0" >
+   package="com.cursor.game"
+   android:versionCode="1"
+   android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+       android:minSdkVersion="8"
+       android:targetSdkVersion="17" />
 
     <application
-        android:icon="@drawable/icon"
-        android:label="RobotGame" >
+       android:icon="@drawable/ic_launcher"
+       android:label="CursorGame" 
+       android:allowBackup="true">
+       
         <activity
-            android:name=".SampleGame"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:label="RobotGame"
-            android:screenOrientation="landscape" >
+           android:name=".StartGame"
+           android:configChanges="keyboard|keyboardHidden|orientation"
+           android:label="CursorGame"
+           android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
