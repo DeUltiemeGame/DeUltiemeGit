@@ -24,6 +24,11 @@ public class GameScreen extends Screen {
 	private boolean ingedruktDown;
 	private boolean ingedruktLeft;
 	private boolean ingedruktRight;
+	//Int's om door te geven welke vinger is gebruikt
+	private int vingerIdUp = 100;
+	private int vingerIdDown = 100;
+	private int vingerIdLeft = 100;
+	private int vingerIdRight = 100;
 	// exp
 	private static int exp;
 	// objecten
@@ -200,36 +205,41 @@ public class GameScreen extends Screen {
 				if (inBounds(event, 200, 0, 400, 242)) {
 					speler.setIngedruktUp(true);
 					ingedruktUp = true;
+					vingerIdUp = event.pointer;
 				}
 				if (inBounds(event, 200, 240, 400, 242)) {
 					speler.setIngedruktDown(true);
 					ingedruktDown = true;
+					vingerIdDown = event.pointer;
 				}
 				if (inBounds(event, 0, 0, 200, 482)) {
 					speler.setIngedruktLeft(true);
 					ingedruktLeft = true;
+					vingerIdLeft = event.pointer;
 				}
 				if (inBounds(event, 600, 0, 200, 482)) {
 					speler.setIngedruktRight(true);
 					ingedruktRight = true;
+					vingerIdRight = event.pointer;
 				}
 			} 
 			if (event.type == TouchEvent.TOUCH_UP) {
-				if (inBounds(event, 200, 0, 400, 242)) {
+				if(event.pointer == vingerIdUp) {
 					speler.setIngedruktUp(false);
 					ingedruktUp = false;
-				}
-				if (inBounds(event, 200, 240, 400, 242)) {
+					vingerIdUp = 100;
+				} else if(event.pointer == vingerIdDown) {
 					speler.setIngedruktDown(false);
 					ingedruktDown = false;
-				}
-				if (inBounds(event, 0, 0, 200, 482)) {
+					vingerIdDown = 100;  
+				} else if(event.pointer == vingerIdLeft) {
 					speler.setIngedruktLeft(false);
 					ingedruktLeft = false;
-				}
-				if (inBounds(event, 600, 0, 200, 482)) {
+					vingerIdLeft = 100;
+				} else if(event.pointer == vingerIdRight) {
 					speler.setIngedruktRight(false);
 					ingedruktRight = false;
+					vingerIdRight = 100;
 				}
 			}
 		}
@@ -376,6 +386,10 @@ public class GameScreen extends Screen {
 
 	}
 
+	public static boolean getSkill1() {
+		return skill1;
+	}
+	
 	public static void setSkill1(boolean skill1) {
 		GameScreen.skill1 = skill1;
 	}
