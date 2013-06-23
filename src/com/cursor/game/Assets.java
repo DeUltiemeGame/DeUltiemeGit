@@ -6,10 +6,9 @@ import com.cursor.framework.Image;
 
 public class Assets {
 	// Voeg hier de Image,sounds,music
-	public static Image splash, background, menu, speler, vijand,bullet,premenu;
-
+	public static Image splash, background, menu, speler, vijand,bullet,premenu,opties;
+	
 	public static void load(StartGame startGame) {
-
 	}
 
 }

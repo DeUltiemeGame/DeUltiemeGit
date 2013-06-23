@@ -19,7 +19,7 @@ public class Enemy {
 	private int speedX = 4;
 	private double deltaX;
 	private double deltaY;
-	private final double speed = 10;
+	private final double speed = 8;
 	private int movementtimer = 100;
 	private int randomMovement = 0;
 	private int skillTimer = 0;
@@ -39,7 +39,6 @@ public class Enemy {
 		movement();
 		skills();
 		recUpdate();
-		System.out.println("Positie X: "+posX+" - Positie Y: "+posY);
 	}
 	private void recUpdate() {
 		enemy.set(posX - 37, posY - 41, posX + 37, posY + 41);
@@ -185,11 +184,9 @@ public class Enemy {
 		switch (randomMovement) {
 		case 0:
 			moveRight();
-			System.out.println("rechts");
 			break;
 		case 1:
 			moveLeft();
-			System.out.println("links");
 			break;
 		}
 	}
@@ -275,9 +272,12 @@ public class Enemy {
 	private void collisionSkill3() {
 		if (posX > endX) {
 			posX = endX;
-			GameScreen.setSkill3(false);
-			resetPos = false;
-			getSkill = true;
+			 
+			if(posY > 240) {
+				moveDown();
+			} else {
+				moveUp();
+			}
 
 		} else if (posX < beginX) {
 			posX = beginX;

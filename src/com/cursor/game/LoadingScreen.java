@@ -16,6 +16,7 @@ public class LoadingScreen extends Screen {
 		// laad de image in
 		Graphics g = game.getGraphics();
 		Assets.splash = g.newImage("splash.png", ImageFormat.RGB565);
+		Assets.opties=g.newImage("opties.png" ,ImageFormat.RGB565);
 		Assets.background = g.newImage("background.png", ImageFormat.RGB565);
 		Assets.menu = g.newImage("menu.png", ImageFormat.RGB565);
 		Assets.speler = g.newImage("cursor.png", ImageFormat.RGB565);

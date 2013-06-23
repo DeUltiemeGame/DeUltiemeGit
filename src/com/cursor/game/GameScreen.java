@@ -1,16 +1,21 @@
 package com.cursor.game;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import android.content.Context;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.widget.EditText;
 
 import com.cursor.framework.Game;
 import com.cursor.framework.Graphics;
 import com.cursor.framework.Input.TouchEvent;
 import com.cursor.framework.Screen;
+import com.cursor.game.JSONParser;
 
 public class GameScreen extends Screen {
 	enum GameState {
@@ -24,7 +29,7 @@ public class GameScreen extends Screen {
 	private boolean ingedruktDown;
 	private boolean ingedruktLeft;
 	private boolean ingedruktRight;
-	//Int's om door te geven welke vinger is gebruikt
+	// Int's om door te geven welke vinger is gebruikt
 	private int vingerIdUp = 100;
 	private int vingerIdDown = 100;
 	private int vingerIdLeft = 100;
@@ -47,10 +52,16 @@ public class GameScreen extends Screen {
 	// bepaald de kleur van de user feedback
 	private final int kleur = Color.argb(55, 0, 0, 0);
 
+	// database variabelen
+	private final String add_score_url = "http://145.24.222.174/highscores/add_score.php";
+	JSONParser jParser = new JSONParser();
+	private boolean toegevoegd = false;
+
 	public GameScreen(Game game) {
 		super(game);
 		// Variable Setup
 		exp = 0;
+		toegevoegd = false;
 		// Initialize game objects here
 		vijand = new Enemy();
 		speler = new Cursor();
@@ -222,21 +233,21 @@ public class GameScreen extends Screen {
 					ingedruktRight = true;
 					vingerIdRight = event.pointer;
 				}
-			} 
+			}
 			if (event.type == TouchEvent.TOUCH_UP) {
-				if(event.pointer == vingerIdUp) {
+				if (event.pointer == vingerIdUp) {
 					speler.setIngedruktUp(false);
 					ingedruktUp = false;
 					vingerIdUp = 100;
-				} else if(event.pointer == vingerIdDown) {
+				} else if (event.pointer == vingerIdDown) {
 					speler.setIngedruktDown(false);
 					ingedruktDown = false;
-					vingerIdDown = 100;  
-				} else if(event.pointer == vingerIdLeft) {
+					vingerIdDown = 100;
+				} else if (event.pointer == vingerIdLeft) {
 					speler.setIngedruktLeft(false);
 					ingedruktLeft = false;
 					vingerIdLeft = 100;
-				} else if(event.pointer == vingerIdRight) {
+				} else if (event.pointer == vingerIdRight) {
 					speler.setIngedruktRight(false);
 					ingedruktRight = false;
 					vingerIdRight = 100;
@@ -274,7 +285,7 @@ public class GameScreen extends Screen {
 	}
 
 	private void drawGameOverUI() {
-		SchrijfExpinDb();
+		SchrijfScoreinDb();
 		Graphics g = game.getGraphics();
 		g.drawRect(0, 0, 1281, 801, Color.BLACK);
 		g.drawString("GAME OVER.", 400, 240, paint2);
@@ -283,8 +294,38 @@ public class GameScreen extends Screen {
 
 	}
 
-	private void SchrijfExpinDb() {
+	private void SchrijfScoreinDb() {
+		if (!toegevoegd) {
+			
+			
+			String naam = "Roy";
+			String score = Integer.toString(exp);
+			System.out.println("Score wegschrijven van: " + exp);
 
+			// Building Parameters
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("naam", naam));
+			params.add(new BasicNameValuePair("score", score));
+
+			// getting JSON Object
+			// Note that create product url accepts POST method
+			JSONObject json = jParser.makeHttpRequest(add_score_url, "POST",
+					params);
+			System.out.println(json);
+			// check for success tag
+			try {
+				int success = json.getInt("success");
+
+				if (success == 1) {
+					System.out.println("Score toegevoegd aan database");
+					toegevoegd = true;
+				} else {
+					System.out.println("Janlaas");
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void drawPausedUI() {
@@ -389,7 +430,7 @@ public class GameScreen extends Screen {
 	public static boolean getSkill1() {
 		return skill1;
 	}
-	
+
 	public static void setSkill1(boolean skill1) {
 		GameScreen.skill1 = skill1;
 	}
