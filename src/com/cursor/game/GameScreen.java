@@ -6,15 +6,20 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.text.InputType;
 import android.widget.EditText;
 
 import com.cursor.framework.Game;
 import com.cursor.framework.Graphics;
 import com.cursor.framework.Input.TouchEvent;
 import com.cursor.framework.Screen;
+import com.cursor.framework.implementation.AndroidFileIO;
 import com.cursor.game.JSONParser;
 
 public class GameScreen extends Screen {
@@ -296,8 +301,6 @@ public class GameScreen extends Screen {
 
 	private void SchrijfScoreinDb() {
 		if (!toegevoegd) {
-			
-			
 			String naam = "Roy";
 			String score = Integer.toString(exp);
 			System.out.println("Score wegschrijven van: " + exp);

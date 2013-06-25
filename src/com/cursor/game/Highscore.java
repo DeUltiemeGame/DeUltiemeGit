@@ -58,7 +58,7 @@ public class Highscore extends Screen {
 			
 			for(int i=0; i<10; i++) {
 				y_start = y_start + 40;
-				g.drawString(i+1+".",200,y_start,paint2);
+				g.drawString(i+1+".",150,y_start,paint2);
 				g.drawString(namen[i],250,y_start,paint2);
 				g.drawString(Integer.toString(scores[i]),550,y_start,paint2);
 			}
