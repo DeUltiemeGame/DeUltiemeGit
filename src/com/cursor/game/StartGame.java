@@ -1,10 +1,18 @@
 	package com.cursor.game;
 
-	import com.cursor.framework.Screen;
-	import com.cursor.framework.implementation.AndroidGame;
+	import android.content.Intent;
+
+import com.cursor.framework.Screen;
+import com.cursor.framework.implementation.AndroidGame;
 
 	public class StartGame extends AndroidGame {
 	    boolean firstTimeCreate = true;
+	    
+	    protected void onCreate() {
+	    	Intent intent = getIntent();
+	    	String naam = intent.getStringExtra("naam");
+	    	System.out.println(naam); 
+	    } 
 
 	    @Override
 	    public Screen getInitScreen() {

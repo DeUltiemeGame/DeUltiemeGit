@@ -301,7 +301,7 @@ public class GameScreen extends Screen {
 
 	private void SchrijfScoreinDb() {
 		if (!toegevoegd) {
-			String naam = "Roy";
+			String naam = Naam.getNaam();
 			String score = Integer.toString(exp);
 			System.out.println("Score wegschrijven van: " + exp);
 

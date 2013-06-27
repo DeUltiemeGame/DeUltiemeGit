@@ -4,16 +4,16 @@ import java.util.List;
 
 import android.graphics.Color;
 import android.graphics.Paint;
-
 import com.cursor.framework.Game;
 import com.cursor.framework.Graphics;
 import com.cursor.framework.Screen;
 import com.cursor.framework.Input.TouchEvent;
+import com.cursor.framework.implementation.AndroidGame;
 
 public class MainMenuScreen extends Screen {
 	Paint paint, paint2, paint3, paint4;
 	private final int kleur = Color.argb(255, 0, 0, 0);
-	
+
 	public MainMenuScreen(Game game) {
 		super(game);
 
@@ -24,10 +24,17 @@ public class MainMenuScreen extends Screen {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
 		paint.setFakeBoldText(true);
+		
+		paint2 = new Paint();
+		paint2.setTextSize(30);
+		paint2.setAntiAlias(true);
+		paint2.setColor(Color.WHITE);
+		paint2.setFakeBoldText(true);
 	}
 
 	@Override
 	public void update(float deltaTime) {
+		
 		Graphics g = game.getGraphics();
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
@@ -35,27 +42,27 @@ public class MainMenuScreen extends Screen {
 		for (int i = 0; i < len; i++) {
 			TouchEvent event = touchEvents.get(i);
 			if (event.type == TouchEvent.TOUCH_UP) {
-				//playButton
+				// playButton
 				if (inBounds(event, 650, 70, 100, 50)) {
 					game.setScreen(new GameScreen(game));
 				}
-				//Options
+				// Options
 				if (inBounds(event, 630, 170, 130, 50)) {
 					game.setScreen(new Options(game));
 				}
-				//Highscore
+				// Highscore
 				if (inBounds(event, 620, 270, 152, 50)) {
 					game.setScreen(new Highscore(game));
 				}
-				//credits
+				// credits
 				if (inBounds(event, 50, 420, 130, 50)) {
 					game.setScreen(new Credits(game));
 				}
-				//Donate
+				// Donate
 				if (inBounds(event, 250, 420, 130, 50)) {
 					game.setScreen(new Donate(game));
 				}
-				
+
 			}
 		}
 	}
@@ -73,6 +80,7 @@ public class MainMenuScreen extends Screen {
 	public void paint(float deltaTime) {
 		Graphics g = game.getGraphics();
 		g.drawImage(Assets.menu, 0, 0);
+		g.drawString("Welkom, "+Naam.getNaam(), 10, 30, paint2);
 		g.drawString("Play", 700, 100, paint);
 		g.drawString("Options", 700, 200, paint);
 		g.drawString("Highscore", 700, 300, paint);

@@ -17,6 +17,7 @@ import com.cursor.framework.Game;
 import com.cursor.framework.Graphics;
 import com.cursor.framework.Input;
 import com.cursor.framework.Screen;
+import com.cursor.game.Naam;
 
 public abstract class AndroidGame extends Activity implements Game {
     AndroidFastRenderView renderView;
@@ -56,6 +57,8 @@ public abstract class AndroidGame extends Activity implements Game {
         
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "MyGame");
+        
+        setNaam();
     }
 
     @Override
@@ -112,5 +115,11 @@ public abstract class AndroidGame extends Activity implements Game {
     public Screen getCurrentScreen() {
 
         return screen;
+    }
+    
+    public void setNaam(){
+    	String naam = getSharedPreferences("SharedPrefs", MODE_PRIVATE)
+				.getString("naam", null);
+    	Naam.setNaam(naam);
     }
 }

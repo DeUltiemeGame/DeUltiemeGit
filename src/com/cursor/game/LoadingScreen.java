@@ -7,7 +7,6 @@ import com.cursor.framework.Screen;
 
 public class LoadingScreen extends Screen {
 	public LoadingScreen(Game game) {
-
 		super(game);
 	}
 
