@@ -1,18 +1,15 @@
 package com.cursor.game;
 
 import java.util.List;
-
 import android.graphics.Color;
 import android.graphics.Paint;
 import com.cursor.framework.Game;
 import com.cursor.framework.Graphics;
 import com.cursor.framework.Screen;
 import com.cursor.framework.Input.TouchEvent;
-import com.cursor.framework.implementation.AndroidGame;
 
 public class MainMenuScreen extends Screen {
 	Paint paint, paint2, paint3, paint4;
-	private final int kleur = Color.argb(255, 0, 0, 0);
 
 	public MainMenuScreen(Game game) {
 		super(game);
@@ -24,18 +21,22 @@ public class MainMenuScreen extends Screen {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
 		paint.setFakeBoldText(true);
-		
+
 		paint2 = new Paint();
 		paint2.setTextSize(30);
 		paint2.setAntiAlias(true);
 		paint2.setColor(Color.WHITE);
 		paint2.setFakeBoldText(true);
+		
+		paint3 = new Paint();
+		paint3.setTextSize(30);
+		paint3.setAntiAlias(true);
+		paint3.setColor(Color.RED);
+		paint3.setFakeBoldText(true);
 	}
 
 	@Override
 	public void update(float deltaTime) {
-		
-		Graphics g = game.getGraphics();
 		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
 		int len = touchEvents.size();
@@ -58,10 +59,6 @@ public class MainMenuScreen extends Screen {
 				if (inBounds(event, 50, 420, 130, 50)) {
 					game.setScreen(new Credits(game));
 				}
-				// Donate
-				if (inBounds(event, 250, 420, 130, 50)) {
-					game.setScreen(new Donate(game));
-				}
 
 			}
 		}
@@ -80,21 +77,23 @@ public class MainMenuScreen extends Screen {
 	public void paint(float deltaTime) {
 		Graphics g = game.getGraphics();
 		g.drawImage(Assets.menu, 0, 0);
-		g.drawString("Welkom, "+Naam.getNaam(), 10, 30, paint2);
+		g.drawString("Welkom, " + Naam.getNaam(), 10, 30, paint2);
 		g.drawString("Play", 700, 100, paint);
 		g.drawString("Options", 700, 200, paint);
 		g.drawString("Highscore", 700, 300, paint);
 		g.drawString("Credits", 100, 450, paint);
-		g.drawString("Donate", 300, 450, paint);
 	}
 
 	@Override
 	public void pause() {
+		Assets.gameover.stop();
 	}
 
 	@Override
 	public void resume() {
-
+		if (Options.isThemeSound() == true) {
+			Assets.gameover.play();
+		}
 	}
 
 	@Override

@@ -7,19 +7,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.text.InputType;
-import android.widget.EditText;
 
 import com.cursor.framework.Game;
 import com.cursor.framework.Graphics;
 import com.cursor.framework.Input.TouchEvent;
 import com.cursor.framework.Screen;
-import com.cursor.framework.implementation.AndroidFileIO;
 import com.cursor.game.JSONParser;
 
 public class GameScreen extends Screen {
@@ -213,7 +208,6 @@ public class GameScreen extends Screen {
 
 	private void spelerMovement(List touchEvents) {
 		int len = touchEvents.size();
-		Graphics g = game.getGraphics();
 		for (int i = 0; i < len; i++) {
 			TouchEvent event = (TouchEvent) touchEvents.get(i);
 
@@ -277,6 +271,7 @@ public class GameScreen extends Screen {
 		Graphics g = game.getGraphics();
 		g.drawImage(Assets.background, 0, 0);
 		g.drawImage(Assets.speler, speler.getPosX(), speler.getPosY());
+		g.drawRect(speler.getPosX(), speler.getPosY(), 90, 88, Color.BLACK);
 		g.drawImage(Assets.vijand, vijand.getPosX(), vijand.getPosY());
 		if (state == GameState.Ready)
 			drawReadyUI();
@@ -290,8 +285,16 @@ public class GameScreen extends Screen {
 	}
 
 	private void drawGameOverUI() {
-		SchrijfScoreinDb();
 		Graphics g = game.getGraphics();
+		
+		if (Naam.getOnline()) {
+			g.drawRect(0, 0, 1281, 801, Color.BLACK);
+			g.drawString("Saving highscore...", 400, 240, paint);
+			SchrijfScoreinDb();
+		} else {
+			g.drawString("Offline mode", 400, 340, paint3);
+		}
+
 		g.drawRect(0, 0, 1281, 801, Color.BLACK);
 		g.drawString("GAME OVER.", 400, 240, paint2);
 		g.drawString("Tap to return.", 400, 290, paint);
@@ -361,6 +364,7 @@ public class GameScreen extends Screen {
 		Graphics g = game.getGraphics();
 		if (skill1 == true) {
 			g.drawImage(Assets.bullet, kogel.getPosX(), kogel.getPosY());
+			g.drawRect(kogel.getPosX(), kogel.getPosY(), 16, 16, Color.BLACK);
 		}
 	}
 
@@ -383,6 +387,7 @@ public class GameScreen extends Screen {
 	public void pause() {
 		if (state == GameState.Running)
 			state = GameState.Paused;
+		Assets.gameover.stop();
 
 	}
 
@@ -390,6 +395,9 @@ public class GameScreen extends Screen {
 	public void resume() {
 		if (state == GameState.Running)
 			state = GameState.Paused;
+		if (Options.isThemeSound() == true) {
+			Assets.gameover.play();
+		}
 	}
 
 	@Override
@@ -455,18 +463,18 @@ public class GameScreen extends Screen {
 
 	public void updateBeginPosKogel() {
 		if (vijand.isPosDown() == true) {
-			kogel.setPosX(vijand.getPosX() + 46);// enemy 0 positie. Enemy = 92
+			kogel.setPosX(vijand.getPosX() + 18);// enemy 0 positie. Enemy = 92
 													// breed om
 			// midden te spawnen is +46 nodig
-			kogel.setPosY(vijand.getPosY() - 23);// enemy 0 positie. Bullet = 18
+			kogel.setPosY(vijand.getPosY() - 14);// enemy 0 positie. Bullet = 18
 													// hoog en
 													// 5 boven de enemy = 23
 													// omhoog.
 		} else {
-			kogel.setPosX(vijand.getPosX() + 46);// enemy 0 positie. Enemy = 92
+			kogel.setPosX(vijand.getPosX() + 18);// enemy 0 positie. Enemy = 92
 			// breed om
 			// midden te spawnen is +46 nodig
-			kogel.setPosY(vijand.getPosY() + 23);// enemy 0 positie. Bullet = 18
+			kogel.setPosY(vijand.getPosY() + 14);// enemy 0 positie. Bullet = 18
 			// hoog en
 			// 5 boven de enemy = 23 omhoog.
 		}
@@ -515,6 +523,10 @@ public class GameScreen extends Screen {
 
 	public static void setResetSkill(boolean resetSkill) {
 		GameScreen.resetSkill = resetSkill;
+	}
+
+	public static boolean isSkill2() {
+		return skill2;
 	}
 
 }

@@ -1,7 +1,5 @@
 package com.cursor.game;
 
-import java.util.List;
-
 import android.graphics.Color;
 import android.graphics.Paint;
 
@@ -11,9 +9,8 @@ import com.cursor.framework.Screen;
 import com.cursor.framework.Input.TouchEvent;
 
 public class Credits extends Screen {
-	Paint paint, paint2, paint3, paint4;
-	private final int kleur = Color.argb(255, 0, 0, 0);
-	
+	Paint paint;
+
 	public Credits(Game game) {
 		super(game);
 
@@ -28,21 +25,7 @@ public class Credits extends Screen {
 
 	@Override
 	public void update(float deltaTime) {
-		Graphics g = game.getGraphics();
-		List<TouchEvent> touchEvents = game.getInput().getTouchEvents();
 
-		int len = touchEvents.size();
-		for (int i = 0; i < len; i++) {
-			TouchEvent event = touchEvents.get(i);
-			if (event.type == TouchEvent.TOUCH_UP) {
-				//playButton
-				if (inBounds(event, 650, 70, 100, 50)) {
-					//game.setScreen(new GameScreen(game));
-				}
-				
-
-			}
-		}
 	}
 
 	private boolean inBounds(TouchEvent event, int x, int y, int width,
@@ -58,16 +41,26 @@ public class Credits extends Screen {
 	public void paint(float deltaTime) {
 		Graphics g = game.getGraphics();
 		g.drawImage(Assets.menu, 0, 0);
-		
+		g.drawString("Made By:.", 400, 150, paint);
+		g.drawString("Erwin Kraan.", 400, 180, paint);
+		g.drawString("Roy Koeleman.", 400, 210, paint);
+		g.drawString("Moreno van der Kruit.", 400, 240, paint);
+		g.drawString("Kevin Hansink.", 400, 270, paint);
+		g.drawString("Berend Scheffers.", 400, 300, paint);
+		g.drawString("Barry de Wit.", 400, 330, paint);
+
 	}
 
 	@Override
 	public void pause() {
+		Assets.gameover.stop();
 	}
 
 	@Override
 	public void resume() {
-
+		if (Options.isThemeSound() == true) {
+			Assets.gameover.play();
+		}
 	}
 
 	@Override

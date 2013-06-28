@@ -14,7 +14,6 @@ import com.cursor.game.JSONParser;
 
 public class Highscore extends Screen {
 	Paint paint, paint2, paint3, paint4;
-	private final int kleur = Color.argb(255, 0, 0, 0);
 	private String namen[] = new String[100];
 	private int scores[] = new int[100];
 	private int y_start = 100;
@@ -32,7 +31,7 @@ public class Highscore extends Screen {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
 		paint.setFakeBoldText(true);
-		
+
 		paint2 = new Paint();
 		paint2.setTextSize(30);
 		paint2.setTextAlign(Paint.Align.CENTER);
@@ -46,34 +45,41 @@ public class Highscore extends Screen {
 
 	@Override
 	public void update(float deltaTime) {
-		if (!done && !draw) {
+		if (!done && !draw && Naam.getOnline()) {
 			g.drawImage(Assets.opties, 0, 0);
 			g.drawString("Highscores laden...", 400, 240, paint);
 			getScores();
-		} else if (done && !draw) {
+		} else if (done && !draw && Naam.getOnline()) {
 			g.drawImage(Assets.opties, 0, 0);
-			g.drawString("Naam",250,50,paint);
-			g.drawString("Score",550,50,paint);
+			g.drawString("Naam", 250, 50, paint);
+			g.drawString("Score", 550, 50, paint);
 			y_start = y_start - 40;
-			
-			for(int i=0; i<10; i++) {
+
+			for (int i = 0; i < 10; i++) {
 				y_start = y_start + 40;
-				g.drawString(i+1+".",150,y_start,paint2);
-				g.drawString(namen[i],250,y_start,paint2);
-				g.drawString(Integer.toString(scores[i]),550,y_start,paint2);
-			}
-			
+				g.drawString(i + 1 + ".", 150, y_start, paint2);
+				g.drawString(namen[i], 250, y_start, paint2);
+				g.drawString(Integer.toString(scores[i]), 550, y_start, paint2);
+			} 
 			
 			draw = true;
-		}
+				
+			} else if (!done && !draw && !Naam.getOnline()){
+				g.drawImage(Assets.opties, 0, 0);
+				g.drawString("You are offline", 400, 240, paint);
+			}
 	}
 
 	@Override
 	public void pause() {
+		Assets.gameover.stop();
 	}
 
 	@Override
 	public void resume() {
+		if (Options.isThemeSound() == true) {
+			Assets.gameover.play();
+		}
 	}
 
 	@Override

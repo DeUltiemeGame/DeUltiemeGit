@@ -3,7 +3,6 @@ package com.cursor.game;
 import android.graphics.Rect;
 
 public class Enemy {
-	private static final int CursorPosX = 0;
 	// Vaste waardes
 	private final int beginX = 0;
 	private final int beginY = 4;
@@ -27,19 +26,47 @@ public class Enemy {
 	private boolean resetPos;
 	private boolean collision = false;
 	private boolean getSkill = true;
+	private boolean playSound = true;
 	// skill 3 booleans
 	private boolean collisionSkill3RightLeft = false;
 	private boolean collisionSkill3DownUp = false;
-	//skill 4 booleans
+	// skill 4 booleans
 	// skill 1 booleans
-	private boolean posUp=false;
-	private boolean posDown=true;
+	private boolean posUp = false;
+	private boolean posDown = true;
+
 	public void update() {
 		collision();
 		movement();
 		skills();
 		recUpdate();
+		soundCheck();
 	}
+
+	private void soundCheck() {
+		if (GameScreen.getSkill1() == false && GameScreen.isSkill2() == false
+				&& GameScreen.isSkill3() == false) {
+			playSound = true;
+		}
+		if (GameScreen.getSkill1() == true) {
+			if (playSound == true) {
+				Assets.bulletsound.play(SoundOptie.getVolume());
+				playSound = false;
+			}
+		} else if (GameScreen.isSkill2() == true) {
+			if (playSound == true) {
+				Assets.jumpsound.play(SoundOptie.getVolume());
+				playSound = false;
+			}
+		} else if (GameScreen.isSkill3() == true) {
+			if (playSound == true) {
+				Assets.jumpsound.play(SoundOptie.getVolume());
+				playSound = false;
+			}
+		}
+
+	}
+
 	private void recUpdate() {
 		enemy.set(posX - 37, posY - 41, posX + 37, posY + 41);
 	}
@@ -58,7 +85,7 @@ public class Enemy {
 					break;
 				case 2:
 					GameScreen.setSkill3(true);
-					break;		
+					break;
 				}
 				skillTimer = 0;
 
@@ -71,15 +98,15 @@ public class Enemy {
 	public void jumpSkill() {
 		if (resetPos == false) {
 			berekenDeltaXY();
-			kijkUpDown();//kijkt of enemy boven of onder is.
+			kijkUpDown();// kijkt of enemy boven of onder is.
 			resetPos = true;
 		}
 		if (collision == false) {
 			moveRightLeft();
 			moveDownUp();
-		} else if (posDown==true&&collision==true) {
+		} else if (posDown == true && collision == true) {
 			moveDown();
-		} else if (posUp==true&&collision==true) {
+		} else if (posUp == true && collision == true) {
 			moveUp();
 		}
 		collisionSkill();
@@ -87,17 +114,14 @@ public class Enemy {
 	}
 
 	public void kijkUpDown() {
-		if(posY<240)
-		{
-			posUp=true;
-			posDown=false;
+		if (posY < 240) {
+			posUp = true;
+			posDown = false;
+		} else {
+			posUp = false;
+			posDown = true;
 		}
-		else
-		{
-			posUp=false;
-			posDown=true;
-		}
-		
+
 	}
 
 	private void collisionSkill() {
@@ -109,15 +133,15 @@ public class Enemy {
 			collision = true;
 			getSkill = true;
 		}
-			if (posY < beginY) {
+		if (posY < beginY) {
+			getSkill = true;
+			collision = true;
+		} else {
+			if (posY > endY) {
 				getSkill = true;
 				collision = true;
-			} else {
-				if (posY > endY) {
-					getSkill = true;
-					collision = true;
-				}
 			}
+		}
 	}
 
 	private void moveDown() {
@@ -272,8 +296,8 @@ public class Enemy {
 	private void collisionSkill3() {
 		if (posX > endX) {
 			posX = endX;
-			 
-			if(posY > 240) {
+
+			if (posY > 240) {
 				moveDown();
 			} else {
 				moveUp();

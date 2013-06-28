@@ -15,16 +15,16 @@ public class LoadingScreen extends Screen {
 		// laad de image in
 		Graphics g = game.getGraphics();
 		Assets.splash = g.newImage("splash.png", ImageFormat.RGB565);
-		Assets.opties=g.newImage("opties.png" ,ImageFormat.RGB565);
+		Assets.opties = g.newImage("opties.png", ImageFormat.RGB565);
 		Assets.background = g.newImage("background.png", ImageFormat.RGB565);
 		Assets.menu = g.newImage("menu.png", ImageFormat.RGB565);
 		Assets.speler = g.newImage("cursor.png", ImageFormat.RGB565);
 		Assets.vijand = g.newImage("heliboy.png", ImageFormat.RGB565);
 		Assets.bullet = g.newImage("bullet.png", ImageFormat.RGB565);
-		Assets.premenu=g.newImage("premenu.png",ImageFormat.RGB565);
-		// This is how you would load a sound if you had one.
-		// Assets.click = game.getAudio().createSound("explode.ogg");
-
+		Assets.premenu = g.newImage("premenu.png", ImageFormat.RGB565);
+		// Laad sounds in
+		Assets.jumpsound = game.getAudio().createSound("jump.wav");
+		Assets.bulletsound = game.getAudio().createSound("bullet.wav");
 		game.setScreen(new MainMenuScreen(game));
 
 	}
@@ -37,12 +37,13 @@ public class LoadingScreen extends Screen {
 
 	@Override
 	public void pause() {
-
+		Assets.gameover.stop();
 	}
 
-	@Override
 	public void resume() {
-
+		if (Options.isThemeSound() == true) {
+			Assets.gameover.play();
+		}
 	}
 
 	@Override

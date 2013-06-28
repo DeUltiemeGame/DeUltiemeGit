@@ -1,5 +1,7 @@
 package com.cursor.game;
 
+import com.cursor.framework.Graphics;
+
 import android.graphics.Rect;
 
 public class Bullet {
@@ -31,7 +33,8 @@ public class Bullet {
 	}
 
 	private void recUpdate() {
-		bullet.set(posX - 21, posY - 9, posX + 21, posY + 9);
+		bullet.set(posX - 8, posY - 8, posX + 8, posY + 8);
+		
 	}
 
 	private void Collision() {
@@ -55,8 +58,7 @@ public class Bullet {
 												// opgehaald worden
 			GameScreen.setResetSkill(true);
 		}
-		if(posY>endY)
-		{
+		if (posY > endY) {
 			GameScreen.setSkill1(false);// Zorgt ervoor dat skill 1 stopt
 			GameScreen.setResetBulletPos(false);// Zorgt ervoor dat de
 												// coordinaten straks weer
